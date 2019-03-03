@@ -1,4 +1,7 @@
-<p align="center">
+# ticket-exam
+ The purpose of this repository is the creation of a ticket system as part of the recruitment processes at Net Tech International.
+ 
+ <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
     </a>
@@ -231,3 +234,4 @@ vendor/bin/codecept run functional,unit -- --coverage-html --coverage-xml
 ```
 
 You can see code coverage output under the `tests/_output` directory.
+
