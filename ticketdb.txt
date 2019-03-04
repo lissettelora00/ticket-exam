@@ -1,0 +1,58 @@
+Database: ticketdb
+
+
+========================
+user 					|
+------------------------
+id_record				|
+first_name				|
+last_name				|
+username				|
+password				|
+active					|
+------------------------
+**TODO:id_user_type (Admin, Assigner, type2)
+
+
+========================
+ticket 					+
+------------------------
+- id_record				|
+- title					|
+- Description			|
+- id_user_requestor		|
+- id_ticket_type		|
+- request_date			|
+- id_ticket_status		|
+------------------------
+
+========================
+ticket_asignado			+
+-------------------------
+id_record				|
+id_user_assigned		| usuario a quien se asigno el ticket
+id_ticket 				| id del ticket asignado
+id_user_assigns_ticket	| usuario que asigno el ticket
+assigned_date			| fecha en que se asigno el ticket
+-------------------------
+
+
+========================
+ticket_detail			+
+------------------------
+id_record				|
+id_ticket				| ticket
+comment					| comentario de lo que se trabajo en el ticket
+worked_time				| tiempo en que se trabajo lo del comentario
+id_ticket_status_user	| status de acuerdo al usuario que lo trabajo
+------------------------
+
+
+========================
+ticket_status			+
+------------------------
+id_record				|
+status_name				|
+description				|
+------------------------
+** (Open, Pending, Close, PendingToAssign)
