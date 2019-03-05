@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\TicketType;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ticket */
@@ -12,25 +14,16 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    
+    <?php 
+        $ticketType     = TicketType::find()->all();
+        $listDataType   = ArrayHelper::map($ticketType,'id_record','type_name'); 
+    ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'id_user_requestor')->textInput() ?>
-
-    <?= $form->field($model, 'id_ticket_type')->dropdownList([
-        1 => 'checkbox 1', 
-        2 => 'checkbox 2']) 
-    ?>
-
-    <?= $form->field($model, 'request_date')->textInput(['value' => '5']) ?>
-
-    <?= $form->field($model, 'id_ticket_status')->dropdownList([
-        1 => 'checkbox 1', 
-        2 => 'checkbox 2']) 
-    ?>
+    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>    
+    
+    <?= $form->field($model, 'id_ticket_type')->dropdownList($listDataType); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
@@ -39,3 +32,4 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+

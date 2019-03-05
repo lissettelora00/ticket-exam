@@ -3,23 +3,36 @@
 namespace app\controllers;
 
 use Yii;
+
 use app\models\Ticket;
 use app\models\TicketSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
  */
 class TicketController extends Controller
 {
+
     /**
      * {@inheritdoc}
      */
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['create', 'update', 'delete', 'index', 'view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -35,11 +48,15 @@ class TicketController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TicketSearch();
+        $searchModel  = new TicketSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+        /*return $this->render('index', [
+            'searchModel'  => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);*/
+        return $this->render('index_all', [
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -66,8 +83,15 @@ class TicketController extends Controller
     {
         $model = new Ticket();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_record]);
+        if ($model->load(Yii::$app->request->post())){
+
+            $model->request_date        = date("Y-m-d H:i:s");
+            $model->id_user_requestor   = yii::$app->user->identity->id;
+            $model->id_ticket_status    = Ticket::TICKET_OPEN;
+
+            if($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_record]);
+            }
         }
 
         return $this->render('create', [

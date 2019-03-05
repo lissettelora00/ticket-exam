@@ -23,7 +23,8 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body style="background-color: #827f7f;">
+<body>
+<!--<body style="background-color: #827f7f;">-->
 <?php $this->beginBody() ?>
 
 <div class="wrap">

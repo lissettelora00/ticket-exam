@@ -17,6 +17,12 @@ use Yii;
  */
 class Ticket extends \yii\db\ActiveRecord
 {
+    //automatic/default status 
+    const TICKET_OPEN     = 1;
+    const TICKET_ASSIGNED = 2;
+    const TICKET_PENDING  = 3;
+
+
     /**
      * {@inheritdoc}
      */
@@ -54,10 +60,10 @@ class Ticket extends \yii\db\ActiveRecord
             'id_record' => 'Id Record',
             'title' => 'Title',
             'description' => 'Description',
-            'id_user_requestor' => 'Id User Requestor',
-            'id_ticket_type' => 'Id Ticket Type',
+            'id_user_requestor' => 'Requestor',
+            'id_ticket_type' => 'Ticket Type',
             'request_date' => 'Request Date',
-            'id_ticket_status' => 'Id Ticket Status',
+            'id_ticket_status' => 'Ticket Status',
         ];
     }
 }

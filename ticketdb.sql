@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-03-2019 a las 03:39:42
--- Versión del servidor: 10.1.38-MariaDB
--- Versión de PHP: 7.3.2
+-- Tiempo de generación: 05-03-2019 a las 21:55:11
+-- Versión del servidor: 10.1.37-MariaDB
+-- Versión de PHP: 7.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -57,8 +57,11 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`id_record`, `title`, `description`, `id_user_requestor`, `id_ticket_type`, `request_date`, `id_ticket_status`) VALUES
-(1, 'Titulo Prueba', 'desc prueba', 1, 2, '2018-01-01 00:00:00', 1),
-(2, 'Titulo Prueba2', 'Desc prueba', 1, 1, '2018-01-01 00:00:00', 2);
+(1, 'Titulo Prueba', 'desc prueba', 1, 1, '2018-01-01 00:00:00', 1),
+(2, 'Titulo Prueba2', 'Desc prueba', 1, 1, '2018-01-01 00:00:00', 2),
+(3, 'test', 'test', 1, 1, '2019-03-05 16:09:19', 1),
+(4, 'test2', 'test', 1, 1, '2019-03-05 16:31:14', 1),
+(5, 'Prueba orbis', 'pruea', 1, 1, '2019-03-05 18:03:48', 1);
 
 -- --------------------------------------------------------
 
@@ -109,6 +112,13 @@ CREATE TABLE `ticket_type` (
   `description` varchar(255) COLLATE utf8_bin NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `ticket_type`
+--
+
+INSERT INTO `ticket_type` (`id_record`, `type_name`, `description`, `active`) VALUES
+(1, 'General', '', 1);
 
 -- --------------------------------------------------------
 
@@ -188,7 +198,7 @@ ALTER TABLE `assigned_ticket`
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket_detail`
@@ -206,7 +216,7 @@ ALTER TABLE `ticket_status`
 -- AUTO_INCREMENT de la tabla `ticket_type`
 --
 ALTER TABLE `ticket_type`
-  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
