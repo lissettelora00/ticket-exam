@@ -1,11 +1,11 @@
-﻿-- phpMyAdmin SQL Dump
--- version 4.8.3
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-03-2019 a las 20:49:23
--- Versión del servidor: 10.1.37-MariaDB
--- Versión de PHP: 7.2.12
+-- Tiempo de generación: 05-03-2019 a las 03:39:42
+-- Versión del servidor: 10.1.38-MariaDB
+-- Versión de PHP: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,7 +33,7 @@ CREATE TABLE `assigned_ticket` (
   `id_user_assigned` int(11) NOT NULL,
   `id_ticket` int(11) NOT NULL,
   `id_user_assigns_ticket` int(11) NOT NULL,
-  `assigned_date` datetime NOT NULL
+  `assigned_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -48,9 +48,17 @@ CREATE TABLE `ticket` (
   `description` text COLLATE utf8_bin NOT NULL,
   `id_user_requestor` int(11) NOT NULL,
   `id_ticket_type` int(11) NOT NULL,
-  `request_date` datetime NOT NULL,
+  `request_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_ticket_status` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `ticket`
+--
+
+INSERT INTO `ticket` (`id_record`, `title`, `description`, `id_user_requestor`, `id_ticket_type`, `request_date`, `id_ticket_status`) VALUES
+(1, 'Titulo Prueba', 'desc prueba', 1, 2, '2018-01-01 00:00:00', 1),
+(2, 'Titulo Prueba2', 'Desc prueba', 1, 1, '2018-01-01 00:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -61,7 +69,7 @@ CREATE TABLE `ticket` (
 CREATE TABLE `ticket_detail` (
   `id_record` int(11) NOT NULL,
   `id_ticket` int(11) NOT NULL,
-  `comment` varchar(255) COLLATE utf8_bin NOT NULL,
+  `comment` text COLLATE utf8_bin NOT NULL,
   `worked_time` float NOT NULL,
   `id_ticket_status_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -74,8 +82,32 @@ CREATE TABLE `ticket_detail` (
 
 CREATE TABLE `ticket_status` (
   `id_record` int(11) NOT NULL,
-  `status_name` int(11) NOT NULL,
-  `description` varchar(50) COLLATE utf8_bin NOT NULL
+  `status_name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `ticket_status`
+--
+
+INSERT INTO `ticket_status` (`id_record`, `status_name`, `description`) VALUES
+(1, 'Open', 'Estatus que se crea por defecto cuando se abre un '),
+(2, 'Assigned', 'Se genera por defecto cuando se asigna el ticket, pero aun no  se le reportan horas.'),
+(3, 'Pending', 'Se genera por defecto cuando se reporta horas al ticket por primera vez.'),
+(4, 'Cancelled', 'El usuario tanto a quien se asigna el ticket como quien lo genera puede cancelarlo.'),
+(5, 'Finished', 'El usuario da por terminado/cerrado el ticket cuando esta listo. Nota: no se puede cerrar sin haberle reportado horas.');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ticket_type`
+--
+
+CREATE TABLE `ticket_type` (
+  `id_record` int(11) NOT NULL,
+  `type_name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `description` varchar(255) COLLATE utf8_bin NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -90,7 +122,7 @@ CREATE TABLE `user` (
   `last_name` varchar(50) COLLATE utf8_bin NOT NULL,
   `username` varchar(20) COLLATE utf8_bin NOT NULL,
   `password` varchar(20) COLLATE utf8_bin NOT NULL,
-  `active` tinyint(1) NOT NULL
+  `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -99,7 +131,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id_record`, `first_name`, `last_name`, `username`, `password`, `active`) VALUES
 (1, 'Lissette', 'Lora', 'lmlora', '123456', 1),
-(2, 'Wilman', 'Hilario', 'whilario', '123456', 1);
+(3, 'Wilman', 'Hilario', 'whilario', '123456', 1);
 
 --
 -- Índices para tablas volcadas
@@ -130,11 +162,17 @@ ALTER TABLE `ticket_status`
   ADD PRIMARY KEY (`id_record`);
 
 --
+-- Indices de la tabla `ticket_type`
+--
+ALTER TABLE `ticket_type`
+  ADD PRIMARY KEY (`id_record`);
+
+--
 -- Indices de la tabla `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_record`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `user_name` (`username`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -150,7 +188,7 @@ ALTER TABLE `assigned_ticket`
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket_detail`
@@ -162,13 +200,19 @@ ALTER TABLE `ticket_detail`
 -- AUTO_INCREMENT de la tabla `ticket_status`
 --
 ALTER TABLE `ticket_status`
+  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `ticket_type`
+--
+ALTER TABLE `ticket_type`
   MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
