@@ -19,7 +19,7 @@ class Ticket extends \yii\db\ActiveRecord
 {
     //automatic/default status 
     const TICKET_OPEN       = 1;
-    const TICKET_UNASSIGNED = 2;
+    const TICKET_ASSIGNED = 2;
     const TICKET_PENDING    = 3;
 
 

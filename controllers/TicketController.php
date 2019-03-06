@@ -10,6 +10,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\models\User;
+use yii\helpers\ArrayHelper;
+use app\models\TicketType;
+use app\models\AssignedTicket;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -27,7 +31,7 @@ class TicketController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete', 'index', 'view', 'tickets', 'unassigned'],
+                        'actions' => ['create', 'update', 'delete', 'index', 'view', 'tickets', 'unassigned', 'assignticket'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -184,20 +188,64 @@ class TicketController extends Controller
      */
     public function actionUnassigned()
     {
-        $searchModel  = new TicketSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //
+        $ticketModel = new Ticket;
+        $unassigned  = $ticketModel::TICKET_OPEN;
 
-        //Busco todos los Tickets de la base de datos
-        $ticketModel  = new Ticket;
-        $ticketUnassg = Ticket::TICKET_UNASSIGNED;
+        $ticketTypeModel = new TicketType;
+        $ticketsType     = $ticketTypeModel::find()->all();
+        $ticketType      = ArrayHelper::map($ticketsType, 'id_record', 'type_name');
 
-        $allUnassignedTickets = $ticketModel::find()->andWhere("id_ticket_status IN ($ticketUnassg)")->all();        
+        $userModel   = new User;
+        $allUsers    = $userModel::find()->all();
+
+        foreach($allUsers as &$usr){
+            $usr->first_name = $usr->first_name.' '.$usr->last_name;
+        }
+        
+        $users = ArrayHelper::map($allUsers, 'id_record', 'first_name');
+
+        $allUnassignedTickets = $ticketModel::find()
+                                            ->andWhere("id_ticket_status IN ($unassigned)")
+                                            ->all();     
 
         return $this->render('unassigned', [
-            'searchModel'  => $searchModel,
-            'dataProvider' => $dataProvider,
+            'ticketModel'  => $ticketModel,
+            'users'        => $users,
+            'userModel'    => $userModel,
+            'ticketType'   => $ticketType,
             'allUnassignedTickets' => $allUnassignedTickets,
         ]);
+    }
+
+    /**
+     * Lists all unassigned Ticket models.
+     * @return mixed
+     */
+    public function actionAssignticket()
+    {
+        $post  = Yii::$app->request->post();
+
+        $model = new AssignedTicket;
+
+        $model->id_user_assigned        = $post['user'];
+        $model->id_ticket               = $post['ticket'];
+        $model->id_user_assigns_ticket  = yii::$app->user->identity->id;
+        $model->assigned_date           = date("Y-m-d H:i:s");
+
+        if ($model->save()) {
+
+            $modelTicket = $this->findModel($post['ticket']);
+
+            $modelTicket->id_ticket_status = Ticket::TICKET_ASSIGNED;
+
+            if($modelTicket->save()){
+                return true;
+            }
+           
+        }
+
+        return false;
     }
 
 }
