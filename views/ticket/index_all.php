@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TicketSearch */
@@ -27,11 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-trello"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">All Tickets</span>
+                        <a href="<?= Url::toRoute('ticket/tickets'); ?>"><span class="info-box-text">All Tickets</span></a>
                         <div class="progress">
                             <div class="progress-bar"></div>
                         </div>
-                        <span class="progress-description">20% Increase in 30 Days</span>
+                        <span class="progress-description"><?= count($allTickets) ?></span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -40,12 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-sticky-note"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Open - Pending To Asign</span>
+                        <a href="<?= Url::toRoute('ticket/unassigned'); ?>"><span class="info-box-text">Open - Pending To Asign</span></a>
                         <span class="info-box-number">41,410</span>
                         <div class="progress">
                             <div class="progress-bar"></div>
                         </div>
-                        <span class="progress-description">20% Increase in 30 Days</span>
+                        <span class="progress-description"><?= count($allPendingTickets) ?></span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -54,12 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-clock-o"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Pending</span>
+                        <a href="<?= Url::toRoute('ticket/pending'); ?>"><span class="info-box-text">Pending</span></a>
                         <span class="info-box-number">41,410</span>
                         <div class="progress">
                             <div class="progress-bar"></div>
                         </div>
-                        <span class="progress-description">20% Increase in 30 Days</span>
+                        <span class="progress-description"><?= count($allUnassignedTickets) ?></span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div><!-- /.col -->   

@@ -18,9 +18,9 @@ use Yii;
 class Ticket extends \yii\db\ActiveRecord
 {
     //automatic/default status 
-    const TICKET_OPEN     = 1;
-    const TICKET_ASSIGNED = 2;
-    const TICKET_PENDING  = 3;
+    const TICKET_OPEN       = 1;
+    const TICKET_UNASSIGNED = 2;
+    const TICKET_PENDING    = 3;
 
 
     /**
@@ -47,7 +47,6 @@ class Ticket extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['request_date'], 'safe'],
             [['title'], 'string', 'max' => 100],
-            [['id_user_requestor'], 'default', 'value'=>Yii::$app->user->id],
         ];
     }
 
@@ -66,4 +65,10 @@ class Ticket extends \yii\db\ActiveRecord
             'id_ticket_status' => 'Ticket Status',
         ];
     }
+
+
+    /**
+     * 
+     */
+    
 }

@@ -27,7 +27,7 @@ class TicketController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete', 'index', 'view'],
+                        'actions' => ['create', 'update', 'delete', 'index', 'view', 'tickets', 'unassigned'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -51,15 +51,44 @@ class TicketController extends Controller
         $searchModel  = new TicketSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        //Busco todos los Tickets de la base de datos
+        $ticketModel  = new Ticket;
+        $ticketOpen   = Ticket::TICKET_OPEN;
+        $ticketUnassg = Ticket::TICKET_UNASSIGNED;
+        $ticketPnd    = Ticket::TICKET_PENDING;
+        $allOpen      = "$ticketOpen, $ticketUnassg, $ticketPnd";
+
+        $allTickets           = $ticketModel::find()->andWhere("id_ticket_status IN ($allOpen)")->all();
+        $allPendingTickets    = $ticketModel::find()->andWhere("id_ticket_status IN ($ticketPnd)")->all();
+        $allUnassignedTickets = $ticketModel::find()->andWhere("id_ticket_status IN ($ticketUnassg)")->all();
+
+        
+
         /*return $this->render('index', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);*/
         return $this->render('index_all', [
+            'allTickets' => $allTickets,
+            'allPendingTickets' => $allPendingTickets,
+            'allUnassignedTickets' => $allUnassignedTickets,
+        ]);
+    }
+
+    /**
+     * 
+     */
+    public function actionTickets()
+    {
+        $searchModel  = new TicketSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        return $this->render('index', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
+
 
     /**
      * Displays a single Ticket model.
@@ -148,4 +177,27 @@ class TicketController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    /**
+     * Lists all unassigned Ticket models.
+     * @return mixed
+     */
+    public function actionUnassigned()
+    {
+        $searchModel  = new TicketSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        //Busco todos los Tickets de la base de datos
+        $ticketModel  = new Ticket;
+        $ticketUnassg = Ticket::TICKET_UNASSIGNED;
+
+        $allUnassignedTickets = $ticketModel::find()->andWhere("id_ticket_status IN ($ticketUnassg)")->all();        
+
+        return $this->render('unassigned', [
+            'searchModel'  => $searchModel,
+            'dataProvider' => $dataProvider,
+            'allUnassignedTickets' => $allUnassignedTickets,
+        ]);
+    }
+
 }
