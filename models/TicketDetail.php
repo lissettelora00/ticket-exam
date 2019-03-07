@@ -12,6 +12,7 @@ use Yii;
  * @property string $comment
  * @property double $worked_time
  * @property int $id_ticket_status_user
+ * @property string $updated_datetime
  */
 class TicketDetail extends \yii\db\ActiveRecord
 {
@@ -29,9 +30,10 @@ class TicketDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_ticket', 'comment', 'worked_time', 'id_ticket_status_user'], 'required'],
+            [['id_ticket', 'comment', 'worked_time', 'id_ticket_status_user', 'updated_datetime'], 'required'],
             [['id_ticket', 'id_ticket_status_user'], 'integer'],
             [['comment'], 'string'],
+            [['updated_datetime'], 'safe'],
             [['worked_time'], 'number'],
         ];
     }
@@ -47,6 +49,7 @@ class TicketDetail extends \yii\db\ActiveRecord
             'comment' => 'Comment',
             'worked_time' => 'Worked Time',
             'id_ticket_status_user' => 'Id Ticket Status User',
+            'updated_datetime' => 'Updated Date',
         ];
     }
 }

@@ -42,7 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     <span class="info-box-icon bg-yellow"><i class="fa fa-sticky-note"></i></span>
                     <div class="info-box-content">
                         <a href="<?= Url::toRoute('ticket/unassigned'); ?>"><span class="info-box-text">Open - Pending To Asign</span></a>
-                        <span class="info-box-number">41,410</span>
                         <div class="progress">
                             <div class="progress-bar"></div>
                         </div>
@@ -56,7 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     <span class="info-box-icon bg-yellow"><i class="fa fa-clock-o"></i></span>
                     <div class="info-box-content">
                         <a href="<?= Url::toRoute('ticket/pending'); ?>"><span class="info-box-text">Pending</span></a>
-                        <span class="info-box-number">41,410</span>
                         <div class="progress">
                             <div class="progress-bar"></div>
                         </div>

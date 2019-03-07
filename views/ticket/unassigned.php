@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 ?>
   
   <section class="content-header">
@@ -59,10 +59,20 @@ use yii\helpers\Html;
       </div>
     </div>
     <?php else:?>
-          <div class="centered-info">
-              Hola, aqui no hay informacion sobre tickets sin asignar.
-          </div>
-          <?php endif; ?>
+      <div class="text-wrapper">
+        <div class="title" data-content="congratulation">
+          Congratulation!
+        </div>
+
+        <div class="subtitle">
+          No tickets pending assignment
+        </div>
+
+        <div class="buttons">
+            <a class="button" href="<?= Url::toRoute('ticket/index'); ?>">Go to homepage</a>
+        </div>
+      </div>
+    <?php endif; ?>
   </section>
   <!-- /.content -->
 </div>
@@ -80,9 +90,52 @@ use yii\helpers\Html;
 </div>
 
 <style>
-  .centered-info{
 
-    position: fixed;
-    top: 50%;  
-  }
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+html {
+    height: 100%;
+}
+body {    
+    background-size: cover;
+    height: 100%;
+}
+
+.title {
+    font-size: 6em;
+    font-weight: 700;
+    color: #F3BB45;
+}
+
+.subtitle {
+    font-size: 40px;
+    font-weight: 700;
+    color: #312F2F;
+}
+
+.buttons {
+    margin: 30px;
+}    
+    a.button {
+        font-weight: 700;
+        border: 2px solid #F3BB45;
+        text-decoration: none;
+        padding: 15px;
+        text-transform: uppercase;
+        color: #F3BB45;
+        border-radius: 26px;
+        transition: all 0.2s ease-in-out;
+    }    
+        &:hover {
+            background-color: #F3BB45;
+            color: white;
+            transition: all 0.2s ease-in-out;
+        }
+    
+
+    
+
+
+
 </style>

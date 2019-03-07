@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    //alert("no");
+    //Funcion para asignar un ticket a un empleado.
     $(".btn-assign").on('click', function(){
         
         var userId   = $("#user-id_record").val();
@@ -30,8 +30,43 @@ $(document).ready(function(){
 
         }); 
     });
+
+
+    //Accordion
+    $("#update-pending-ticket").on('click', function(){
+        
+        var idTicket = $(this).attr('tid');
+        
+        $.ajax({
+            url: 'index.php?r=ticket/ticketdetails',
+            type: 'POST',
+            data: {
+                ticket : idTicket,
+            },
+
+            complete: function(response) {  
+
+                console.log(response); 
+
+                data = JSON.parse(response.responseText)
+                title = data.title;
+
+                $("#id-ticket").val(idTicket);
+                $(".modal-title").html(title);
+                
+            },
+            error: function(x){
+                console.log(x);
+            }
+
+        }); 
+        
+        $('#myModal').modal('toggle');        
+        
+    });
   
 });
+
 
 function showSaveIcon(element, ticketId) {
     

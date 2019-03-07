@@ -41,7 +41,8 @@ class TicketController extends Controller
                             'tickets', 
                             'unassigned', 
                             'assignticket',
-                            'pending'
+                            'pending',
+                            'ticketdetails'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -230,7 +231,7 @@ class TicketController extends Controller
     }
 
     /**
-     * Lists all unassigned Ticket models.
+     * assigned a Ticket.
      * @return mixed
      */
     public function actionAssignticket()
@@ -261,7 +262,7 @@ class TicketController extends Controller
 
 
     /**
-     * Lists all pending Tickets.
+     * Lists all open-pending Tickets.
      * @return mixed
      */
     public function actionPending()
@@ -272,8 +273,21 @@ class TicketController extends Controller
         $ticketPnd    = Ticket::TICKET_PENDING;
         $allOpen      = "$ticketAssg, $ticketPnd";
 
-        $allTickets   = $ticketModel::find()->andWhere("id_ticket_status IN ($allOpen)")->all();    
+        $loggedUser   = yii::$app->user->identity->id;
+
+        $sql        = " SELECT t.*, SUM(td.worked_time) as worked
+                        FROM `assigned_ticket` ati 
+                        INNER JOIN `ticket` t ON (ati.id_ticket = t.id_record)
+                        INNER JOIN `ticket_detail` td ON (td.id_ticket = ati.id_ticket) 
+                        WHERE TRUE
+                        AND ati.id_user_assigned = $loggedUser
+                        GROUP BY td.id_ticket";
         
+        $allTickets = Yii::$app->db
+                        ->createCommand($sql)
+                        ->queryAll();
+
+       
         $userModel   = new User;
         $allUsers    = $userModel::find()->all();
 
@@ -287,18 +301,33 @@ class TicketController extends Controller
         $ticketsType     = $ticketTypeModel::find()->all();
         $ticketType      = ArrayHelper::map($ticketsType, 'id_record', 'type_name');
 
+        $ticketDetailModel = new TicketDetail;
+        $ticketsDetail     = $ticketDetailModel::find()
+                                                ->andWhere("id_ticket_status_user IN ($allOpen)")
+                                                ->all();  
+        
 
-       /*return $this->render('index', [
-           'searchModel'  => $searchModel,
-           'dataProvider' => $dataProvider,
-       ]);*/
+
        return $this->render('all_pending_tickets', [
            'allTickets' => $allTickets,
            'users'      => $users,
            'ticketType' => $ticketType,
            'userModel'  => $userModel,
+           'ticketsDetail' => $ticketsDetail,
        ]);
 
+    }
+
+    public function actionTicketdetails()
+    {
+        $post  = Yii::$app->request->post();
+
+        $idTicket = $post['ticket'];
+
+        //$details = Ticket::find()->where(['id_record' => $idTicket])->one();
+        //var_dump($details); die();
+        $details = Ticket::find(['id_record' => $idTicket])->asArray()->one();
+        return json_encode($details);
     }
 
 }
