@@ -14,6 +14,7 @@ use app\models\User;
 use yii\helpers\ArrayHelper;
 use app\models\TicketType;
 use app\models\AssignedTicket;
+use app\models\TicketDetail;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -31,7 +32,17 @@ class TicketController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete', 'index', 'view', 'tickets', 'unassigned', 'assignticket'],
+                        'actions' => [
+                            'create', 
+                            'update', 
+                            'delete', 
+                            'index', 
+                            'view', 
+                            'tickets', 
+                            'unassigned', 
+                            'assignticket',
+                            'pending'
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -58,13 +69,13 @@ class TicketController extends Controller
         //Busco todos los Tickets de la base de datos
         $ticketModel  = new Ticket;
         $ticketOpen   = Ticket::TICKET_OPEN;
-        $ticketUnassg = Ticket::TICKET_UNASSIGNED;
+        $ticketAssg   = Ticket::TICKET_ASSIGNED;
         $ticketPnd    = Ticket::TICKET_PENDING;
-        $allOpen      = "$ticketOpen, $ticketUnassg, $ticketPnd";
+        $allOpen      = "$ticketOpen, $ticketAssg, $ticketPnd";
 
         $allTickets           = $ticketModel::find()->andWhere("id_ticket_status IN ($allOpen)")->all();
         $allPendingTickets    = $ticketModel::find()->andWhere("id_ticket_status IN ($ticketPnd)")->all();
-        $allUnassignedTickets = $ticketModel::find()->andWhere("id_ticket_status IN ($ticketUnassg)")->all();
+        $allUnassignedTickets = $ticketModel::find()->andWhere("id_ticket_status IN ($ticketOpen)")->all();
 
         
 
@@ -246,6 +257,48 @@ class TicketController extends Controller
         }
 
         return false;
+    }
+
+
+    /**
+     * Lists all pending Tickets.
+     * @return mixed
+     */
+    public function actionPending()
+    {
+        //Busco todos los Tickets de la base de datos
+        $ticketModel  = new Ticket;
+        $ticketAssg   = Ticket::TICKET_ASSIGNED;
+        $ticketPnd    = Ticket::TICKET_PENDING;
+        $allOpen      = "$ticketAssg, $ticketPnd";
+
+        $allTickets           = $ticketModel::find()->andWhere("id_ticket_status IN ($allOpen)")->all();    
+        
+        $userModel   = new User;
+        $allUsers    = $userModel::find()->all();
+
+        foreach($allUsers as &$usr){
+            $usr->first_name = $usr->first_name.' '.$usr->last_name;
+        }
+       
+        $users = ArrayHelper::map($allUsers, 'id_record', 'first_name');
+
+        $ticketTypeModel = new TicketType;
+        $ticketsType     = $ticketTypeModel::find()->all();
+        $ticketType      = ArrayHelper::map($ticketsType, 'id_record', 'type_name');
+
+
+       /*return $this->render('index', [
+           'searchModel'  => $searchModel,
+           'dataProvider' => $dataProvider,
+       ]);*/
+       return $this->render('all_pending_tickets', [
+           'allTickets' => $allTickets,
+           'users'      => $users,
+           'ticketType' => $ticketType,
+           'userModel'  => $userModel,
+       ]);
+
     }
 
 }

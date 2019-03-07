@@ -6,18 +6,17 @@ use yii\helpers\Html;
   <section class="content-header">
     <h1>
       Tickets
-      <small>unassigned</small>
+      <small>assigned to you</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
       <li><a href="#">Tickets</a></li>
-      <li class="active">Unassigned</li>
+      <li class="active">Your Tickets</li>
     </ol>
   </section>
 
   <!-- Main content -->
   <section class="content">
-  <?php if(count($allUnassignedTickets) > 0 ): ?>
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
@@ -32,7 +31,7 @@ use yii\helpers\Html;
                           <th>Ticket Type</th>
                           <th>Assign</th>
                       </tr>
-                      <?php foreach ($allUnassignedTickets as $ticket):?>
+                      <?php foreach ($allTickets as $ticket):?>
                       <tr>
                           <td><?= $ticket->title; ?></td>
                           <td><?= $ticket->description; ?></td>
@@ -40,12 +39,6 @@ use yii\helpers\Html;
                           <td><?= $ticket->request_date; ?></td>
                           <td><?= $ticketType[$ticket->id_ticket_type]; ?></td>
                           <td>
-                            <?= Html::activeDropDownList($userModel, 'id_record', $users, 
-                              [ 
-                                'prompt'   => '-Select User-', 
-                                'onchange' => 'showSaveIcon(this, '.$ticket->id_record.')'
-                              ]); ?> 
-                            &nbsp;&nbsp;
                             <a id="icon-<?= $ticket->id_record;?>" class="btn btn-assign" style="display:none;">
                               <i class="fa fa-save fa-lg text-success"></i>
                             </a>               
@@ -58,11 +51,6 @@ use yii\helpers\Html;
         </div><!-- /.box -->
       </div>
     </div>
-    <?php else:?>
-          <div class="centered-info">
-              Hola, aqui no hay informacion sobre tickets sin asignar.
-          </div>
-          <?php endif; ?>
   </section>
   <!-- /.content -->
 </div>
