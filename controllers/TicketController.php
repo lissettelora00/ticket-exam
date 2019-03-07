@@ -272,7 +272,7 @@ class TicketController extends Controller
         $ticketPnd    = Ticket::TICKET_PENDING;
         $allOpen      = "$ticketAssg, $ticketPnd";
 
-        $allTickets           = $ticketModel::find()->andWhere("id_ticket_status IN ($allOpen)")->all();    
+        $allTickets   = $ticketModel::find()->andWhere("id_ticket_status IN ($allOpen)")->all();    
         
         $userModel   = new User;
         $allUsers    = $userModel::find()->all();
