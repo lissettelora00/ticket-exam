@@ -13,7 +13,7 @@
             <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
             </div>
-            <input type="text" id="initial-date" />
+            <input class="datepicker" data-provide="datepicker">
         </div>
         <!-- /.input group -->
         </div>

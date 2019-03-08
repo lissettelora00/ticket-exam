@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use app\models\TicketStatus;
 use app\models\TicketType;
 use app\models\User;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TicketSearch */
@@ -22,7 +23,7 @@ $this->title = 'Tickets';
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="#">Tickets</a></li>
+            <li><a href="<?= Url::toRoute('ticket/index'); ?>">Tickets</a></li>
             <li class="active">Unassigned</li>
         </ol>
     </section>
@@ -69,5 +70,5 @@ $this->title = 'Tickets';
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-     </section>
+    </section>
 </div>

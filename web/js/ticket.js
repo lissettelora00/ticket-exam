@@ -1,7 +1,11 @@
 $(document).ready(function(){
 
    
-      $("#initial-date").daterangepicker().datepicker("setDate", new Date());
+    //$("#initial-date").daterangepicker().datepicker("setDate", new Date());
+    $('.datepicker').datepicker({
+    format: 'mm/dd/yyyy',
+    startDate: '-3d'
+});
 
     //Funcion para asignar un ticket a un empleado.
     $(".btn-assign").on('click', function(){

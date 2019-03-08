@@ -8,14 +8,24 @@ use yii\helpers\Url;
 /* @var $searchModel app\models\TicketSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'All Tickets';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Tickets';
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ticket-index-all">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <section class="content-header">
+        <h1>
+            <?= Html::encode($this->title) ?>
+            <small>All</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active"><?= Html::encode($this->title) ?></li>
+        </ol>
+    </section>
+    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <section class="content">
     <p>
         <?= Html::a('Create Ticket', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -65,6 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
       </div><!-- /.row -->
 
+    </section>
     </section>
     
 </div>

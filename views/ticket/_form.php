@@ -11,12 +11,10 @@ use yii\helpers\ArrayHelper;
 ?>
 <section class="content">
     <div class="ticket-form row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <!-- general form elements -->
             <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-                </div>
+                
                 <?php $form = ActiveForm::begin(); ?>
 
                 <?php 

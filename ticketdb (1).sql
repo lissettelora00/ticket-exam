@@ -1,3 +1,14 @@
+SELECT *, COALESCE(SUM(td.worked_time), 0)
+FROM ticket t
+INNER JOIN assigned_ticket ati ON (ati.id_ticket = t.id_record)
+INNER JOIN user u ON (u.id_record = ati.id_user_assigned)
+INNER JOIN ticket_status ts ON (ts.id_record = t.id_ticket_status)
+LEFT JOIN ticket_detail td ON (td.id_ticket = t.id_record)
+WHERE TRUE
+AND t.request_date BETWEEN '2018-01-01' AND '2018-01-05'
+GROUP BY t.id_record
+ORDER BY t.id_record
+
 -- phpMyAdmin SQL Dump
 -- version 4.8.3
 -- https://www.phpmyadmin.net/

@@ -10,7 +10,7 @@ use yii\helpers\Url;
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-      <li><a href="#">Tickets</a></li>
+      <li><a href="<?= Url::toRoute('ticket/index'); ?>">Tickets</a></li>
       <li class="active">Unassigned</li>
     </ol>
   </section>
@@ -69,7 +69,7 @@ use yii\helpers\Url;
         </div>
 
         <div class="buttons">
-            <a class="button" href="<?= Url::toRoute('ticket/index'); ?>">Go to homepage</a>
+            <a class="button" href="<?= Url::toRoute('ticket/index'); ?>">See all tickets</a>
         </div>
       </div>
     <?php endif; ?>
@@ -89,53 +89,3 @@ use yii\helpers\Url;
   <span class="sr-only">Loading...</span>
 </div>
 
-<style>
-
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-html {
-    height: 100%;
-}
-body {    
-    background-size: cover;
-    height: 100%;
-}
-
-.title {
-    font-size: 6em;
-    font-weight: 700;
-    color: #F3BB45;
-}
-
-.subtitle {
-    font-size: 40px;
-    font-weight: 700;
-    color: #312F2F;
-}
-
-.buttons {
-    margin: 30px;
-}    
-    a.button {
-        font-weight: 700;
-        border: 2px solid #F3BB45;
-        text-decoration: none;
-        padding: 15px;
-        text-transform: uppercase;
-        color: #F3BB45;
-        border-radius: 26px;
-        transition: all 0.2s ease-in-out;
-    }    
-        &:hover {
-            background-color: #F3BB45;
-            color: white;
-            transition: all 0.2s ease-in-out;
-        }
-    
-
-    
-
-
-
-</style>

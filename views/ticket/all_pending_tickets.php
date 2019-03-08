@@ -25,6 +25,7 @@ endforeach;
 
   <!-- Main content -->
   <section class="content">
+  <?php if(count($allTickets)>0):?>
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
@@ -102,6 +103,21 @@ endforeach;
         </div><!-- /.box -->
       </div>
     </div>
+    <?php else:?>
+    <div class="text-wrapper">
+        <div class="title" data-content="congratulation">
+          Congratulation!
+        </div>
+
+        <div class="subtitle">
+          No tickets pending!!!
+        </div>
+
+        <div class="buttons">
+            <a class="button" href="<?= Url::toRoute('ticket/index'); ?>">See all tickets</a>
+        </div>
+      </div>
+    <?php endif;?>
   </section>
   <!-- /.content -->
 </div>
