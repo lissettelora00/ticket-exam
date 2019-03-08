@@ -1,9 +1,9 @@
-﻿-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-03-2019 a las 21:55:11
+-- Tiempo de generación: 08-03-2019 a las 23:29:07
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.12
 
@@ -21,6 +21,22 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ticketdb`
 --
+
+DELIMITER $$
+--
+-- Funciones
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `GETUSERNAMEBYID` (`UID` INT) RETURNS TEXT CHARSET utf8 COLLATE utf8_bin BEGIN
+
+  DECLARE FULL_NAME TEXT DEFAULT "";
+
+    SELECT CONCAT(FIRST_NAME, " ", LAST_NAME) INTO FULL_NAME FROM USER WHERE id_record = UID;
+    
+  RETURN FULL_NAME;
+  
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -52,17 +68,6 @@ CREATE TABLE `ticket` (
   `id_ticket_status` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Volcado de datos para la tabla `ticket`
---
-
-INSERT INTO `ticket` (`id_record`, `title`, `description`, `id_user_requestor`, `id_ticket_type`, `request_date`, `id_ticket_status`) VALUES
-(1, 'Titulo Prueba', 'desc prueba', 1, 1, '2018-01-01 00:00:00', 1),
-(2, 'Titulo Prueba2', 'Desc prueba', 1, 1, '2018-01-01 00:00:00', 2),
-(3, 'test', 'test', 1, 1, '2019-03-05 16:09:19', 1),
-(4, 'test2', 'test', 1, 1, '2019-03-05 16:31:14', 1),
-(5, 'Prueba orbis', 'pruea', 1, 1, '2019-03-05 18:03:48', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -74,7 +79,8 @@ CREATE TABLE `ticket_detail` (
   `id_ticket` int(11) NOT NULL,
   `comment` text COLLATE utf8_bin NOT NULL,
   `worked_time` float NOT NULL,
-  `id_ticket_status_user` int(11) NOT NULL
+  `id_ticket_status_user` int(11) NOT NULL,
+  `updated_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -131,7 +137,7 @@ CREATE TABLE `user` (
   `first_name` varchar(50) COLLATE utf8_bin NOT NULL,
   `last_name` varchar(50) COLLATE utf8_bin NOT NULL,
   `username` varchar(20) COLLATE utf8_bin NOT NULL,
-  `password` varchar(20) COLLATE utf8_bin NOT NULL,
+  `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -140,8 +146,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_record`, `first_name`, `last_name`, `username`, `password`, `active`) VALUES
-(1, 'Lissette', 'Lora', 'lmlora', '123456', 1),
-(3, 'Wilman', 'Hilario', 'whilario', '123456', 1);
+(1, 'Demo', 'Demo', 'demo', '89e495e7941cf9e40e6980d14a16bf023ccd4c91', 1);
 
 --
 -- Índices para tablas volcadas
@@ -198,7 +203,7 @@ ALTER TABLE `assigned_ticket`
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket_detail`
@@ -222,11 +227,9 @@ ALTER TABLE `ticket_type`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-ALTER TABLE `ticket_detail` CHANGE `updated_datetime` `updated_datetime` DATETIME NOT NULL;
