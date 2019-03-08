@@ -184,14 +184,14 @@ function renderTable(data, divid) {
         <table class="table table-striped table-bordered">
           <tbody>
             <tr>
-              <th>Id</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Responsible</th>
-              <th>Requestor</th>
-              <th>Request Date</th>
-              <th>Status</th>
-              <th>Link</th>
+              <th style="width:5%">Id</th>
+              <th style="width:17%">Title</th>
+              <th style="width:28%">Description</th>
+              <th style="width:10%">Responsible</th>
+              <th style="width:15%">Requestor</th>
+              <th style="width:15%">Request Date</th>
+              <th style="width:5%">Status</th>
+              <th style="width:5%">Info</th>
             </tr>`;  
 
         data.forEach(function(x) {
@@ -205,7 +205,7 @@ function renderTable(data, divid) {
                 <td>${x.requestor}</td>
                 <td>${x.request_date}</td>
                 <td><span class="badge bg-${x.status_color}">${x.status_name}</span></td>
-                <td><a href="index.php?r=ticket/view&id=${x.id_record}"><i class="fa fa-eye"></i> Details</a></td>
+                <td><a href="index.php?r=ticket/view&id=${x.id_record}"><i class="fa fa-eye"></i></a></td>
             </tr>`;
         });
 

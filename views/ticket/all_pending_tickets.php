@@ -41,11 +41,11 @@ endforeach;
                     </tr>
                     <?php foreach ($allTickets as $ticket):?>
                     <tr id="tr-<?= $ticket['id_record'];?>" t-id="<?= $ticket['id_record']; ?>" data-toggle="collapse" data-target="#accordion-<?= $ticket['id_record']; ?>" class="clickable">
-                      <td><?= $ticket['title']; ?></td>
-                      <td><?= $ticket['description']; ?></td>
-                      <td><?= $users[$ticket['id_user_requestor']]; ?></td>
-                      <td><?= $ticket['request_date']; ?></td>
-                      <td><?= round($ticket['worked'], 2); ?></td>                         
+                      <td style="width:20%"><?= $ticket['title']; ?></td>
+                      <td style="width:40%"><?= $ticket['description']; ?></td>
+                      <td style="width:15%"><?= $users[$ticket['id_user_requestor']]; ?></td>
+                      <td style="width:15%"><?= $ticket['request_date']; ?></td>
+                      <td style="width:10%"><?= round($ticket['worked'], 2); ?></td>                         
                     </tr>
                     <tr>
                       <td colspan="5">
@@ -184,11 +184,3 @@ endforeach;
   <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
   <span class="sr-only">Loading...</span>
 </div>
-
-<style>
-  .centered-info{
-
-    position: fixed;
-    top: 50%;  
-  }
-</style>
