@@ -18,7 +18,7 @@ endforeach;
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-      <li><a href="#">Tickets</a></li>
+      <li><a href="<?= Url::toRoute('ticket/index'); ?>">Tickets</a></li>
       <li class="active">Your Tickets</li>
     </ol>
   </section>
@@ -53,7 +53,7 @@ endforeach;
                           <div class="col-md-12">
                             <ul class="timeline">
                               <li class="time-label">
-                                <span class="bg-green">Update</span>
+                                <span class="bg-green" id="update-pending-ticket" tid="<?= $ticket['id_record'];?>">Update</span>
                               </li><!-- /.timeline-label -->    
                               <?php foreach ($ticketsDetailArray[$ticket['id_record']] as $detail):?>
                               

@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+   
+      $("#initial-date").daterangepicker().datepicker("setDate", new Date());
+
     //Funcion para asignar un ticket a un empleado.
     $(".btn-assign").on('click', function(){
         

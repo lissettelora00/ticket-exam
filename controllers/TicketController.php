@@ -42,7 +42,8 @@ class TicketController extends Controller
                             'unassigned', 
                             'assignticket',
                             'pending',
-                            'ticketdetails'
+                            'ticketdetails',
+                            'report',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -328,6 +329,59 @@ class TicketController extends Controller
         //var_dump($details); die();
         $details = Ticket::find(['id_record' => $idTicket])->asArray()->one();
         return json_encode($details);
+    }
+
+
+    public function actionReport(){
+        //Busco todos los Tickets de la base de datos
+        $ticketModel  = new Ticket;
+        $ticketAssg   = Ticket::TICKET_ASSIGNED;
+        $ticketPnd    = Ticket::TICKET_PENDING;
+        $allOpen      = "$ticketAssg, $ticketPnd";
+
+        $loggedUser   = yii::$app->user->identity->id;
+
+        $sql        = " SELECT t.*, SUM(td.worked_time) as worked
+                        FROM `assigned_ticket` ati 
+                        INNER JOIN `ticket` t ON (ati.id_ticket = t.id_record)
+                        INNER JOIN `ticket_detail` td ON (td.id_ticket = ati.id_ticket) 
+                        WHERE TRUE
+                        AND ati.id_user_assigned = $loggedUser
+                        GROUP BY td.id_ticket";
+        
+        $allTickets = Yii::$app->db
+                        ->createCommand($sql)
+                        ->queryAll();
+
+       
+        $userModel   = new User;
+        $allUsers    = $userModel::find()->all();
+
+        foreach($allUsers as &$usr){
+            $usr->first_name = $usr->first_name.' '.$usr->last_name;
+        }
+       
+        $users = ArrayHelper::map($allUsers, 'id_record', 'first_name');
+
+        $ticketTypeModel = new TicketType;
+        $ticketsType     = $ticketTypeModel::find()->all();
+        $ticketType      = ArrayHelper::map($ticketsType, 'id_record', 'type_name');
+
+        $ticketDetailModel = new TicketDetail;
+        $ticketsDetail     = $ticketDetailModel::find()
+                                                ->andWhere("id_ticket_status_user IN ($allOpen)")
+                                                ->all();  
+        
+
+
+       return $this->render('report', [
+           'allTickets' => $allTickets,
+           'users'      => $users,
+           'ticketType' => $ticketType,
+           'userModel'  => $userModel,
+           'ticketsDetail' => $ticketsDetail,
+       ]);
+
     }
 
 }

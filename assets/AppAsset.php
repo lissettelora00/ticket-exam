@@ -23,9 +23,13 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/AdminLTE.min.css',
         'css/font-awesome.min.css',
+        'css/daterangepicker.css'
     ];
     public $js = [
         'js/ticket.js',
+        'js/moment.min.js',
+        'js/daterangepicker.min.js',
+
     ];
     public $depends = [
         'yii\web\YiiAsset',

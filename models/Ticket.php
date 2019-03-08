@@ -59,7 +59,7 @@ class Ticket extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_record' => 'Id Record',
+            'id_record' => 'Id',
             'title' => 'Title',
             'description' => 'Description',
             'id_user_requestor' => 'Requestor',

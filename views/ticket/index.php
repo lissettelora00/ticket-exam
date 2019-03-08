@@ -11,13 +11,24 @@ use app\models\User;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Tickets';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="ticket-index">
+    <section class="content-header">
+        <h1>
+            <?= Html::encode($this->title) ?>
+            <small>All</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="#">Tickets</a></li>
+            <li class="active">Unassigned</li>
+        </ol>
+    </section>
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <section class="content">
     <p>
         <?= Html::a('Create Ticket', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -58,4 +69,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+     </section>
 </div>
