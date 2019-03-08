@@ -8,24 +8,38 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="user-form">
+<section class="content">
+    <div class="ticket-form row">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
 
-    <?php $form = ActiveForm::begin(); ?>
+                <div class="user-form">
 
-    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
+                    <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
+                    <div class="box-body">
 
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
+                        <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                        <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
+
+                        <?= $form->field($model, 'active')->dropdownList([1=>'true', 0 => 'false']) ?>
+
+                        <div class="form-group">
+                            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                        </div>
+
+                    </div>
+
+                    <?php ActiveForm::end(); ?>
+                </div>
+
+            </div>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
+</section>

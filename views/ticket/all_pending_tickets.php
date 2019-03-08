@@ -142,7 +142,7 @@ endforeach;
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="worked-time" >Worked Time</label>
                     <div class="col-xs-3">
-                      <input type="number " class="form-control" name="worked">
+                      <input type="number" required class="form-control" name="worked" min="0" max="23.9" step="0.1">
                     </div>
                   </div>
 
@@ -159,7 +159,7 @@ endforeach;
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="comment"> Comment</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="comment" rows="3" id="comment" placeholder="Enter your comment"></textarea>
+                      <textarea class="form-control" required name="comment" rows="3" id="comment" placeholder="Enter your comment"></textarea>
                     </div>
                   </div>
 

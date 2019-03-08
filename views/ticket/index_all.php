@@ -38,11 +38,12 @@ $this->title = 'Tickets';
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-trello"></i></span>
                     <div class="info-box-content">
-                        <a href="<?= Url::toRoute('ticket/tickets'); ?>"><span class="info-box-text">All Tickets</span></a>
+                        <a href="<?= Url::toRoute('ticket/tickets'); ?>"><span class="info-box-text">All Active Tickets</span></a>
+                        <span class="info-box-number"><?= count($allTickets) ?></span>
                         <div class="progress">
                             <div class="progress-bar"></div>
                         </div>
-                        <span class="progress-description"><?= count($allTickets) ?></span>
+                        <span class="progress-description">Open | Assigned | Pending <?php if(count($allTimeTickets)) {echo " | Overall: ".count($allTimeTickets);}?></span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -51,11 +52,12 @@ $this->title = 'Tickets';
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-sticky-note"></i></span>
                     <div class="info-box-content">
-                        <a href="<?= Url::toRoute('ticket/unassigned'); ?>"><span class="info-box-text">Open - Pending To Asign</span></a>
+                        <a href="<?= Url::toRoute('ticket/unassigned'); ?>"><span class="info-box-text">Open</span></a>
+                        <span class="info-box-number"><?= count($allUnassignedTickets) ?></span>
                         <div class="progress">
                             <div class="progress-bar"></div>
                         </div>
-                        <span class="progress-description"><?= count($allPendingTickets) ?></span>
+                        <span class="progress-description">Ready to be assigned</span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -65,10 +67,11 @@ $this->title = 'Tickets';
                     <span class="info-box-icon bg-yellow"><i class="fa fa-clock-o"></i></span>
                     <div class="info-box-content">
                         <a href="<?= Url::toRoute('ticket/pending'); ?>"><span class="info-box-text">Pending</span></a>
+                        <span class="info-box-number"><?= count($allPendingTickets) ?></span>
                         <div class="progress">
                             <div class="progress-bar"></div>
                         </div>
-                        <span class="progress-description"><?= count($allUnassignedTickets) ?></span>
+                        <span class="progress-description">Your Pending tickets | Update your tickets</span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div><!-- /.col -->   
