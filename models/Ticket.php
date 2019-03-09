@@ -80,7 +80,7 @@ class Ticket extends \yii\db\ActiveRecord
                             t.*, SUM(td.worked_time) AS worked
                         FROM `assigned_ticket` ati 
                         INNER JOIN `ticket` t ON (ati.id_ticket = t.id_record)
-                        INNER JOIN `ticket_detail` td ON (td.id_ticket = ati.id_ticket) 
+                        LEFT JOIN `ticket_detail` td ON (td.id_ticket = ati.id_ticket) 
                         WHERE TRUE
                         AND ati.id_user_assigned = $loggedUser
                         GROUP BY td.id_ticket
